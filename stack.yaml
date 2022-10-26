@@ -1,0 +1,40 @@
+# TODO: choose your stack package resolver
+# Many Bcc packages snapshot.yaml from bcc-prelude.
+resolver: https://raw.githubusercontent.com/The-Blockchain-Company/bcc-prelude/c1f053a9dbc2763ad2163281a356a2cf0f4d7858/snapshot.yaml
+# resolver: 13.26
+
+packages:
+  - .
+
+extra-deps:
+  - git: https://github.com/The-Blockchain-Company/bcc-prelude
+    commit: c1f053a9dbc2763ad2163281a356a2cf0f4d7858
+    subdirs:
+      - .
+      - test
+
+  - git: https://github.com/The-Blockchain-Company/bcc-base
+    commit: f6b3923ac0fb162098050f67dcbc31f6d721b22d
+    subdirs:
+      - binary
+      - binary/test
+
+  - git: https://github.com/The-Blockchain-Company/tbco-monitoring-framework
+    commit: 2493b1104caa6d32378d0cb72d3fa92916b5570b
+    subdirs:
+      - contra-tracer
+      - tbco-monitoring
+
+flags:
+  # Bring in less dependencies from tbco-monitoring
+  # See also: package options in nix/default.nix
+  tbco-monitoring:
+    disable-ekg: true
+    disable-examples: true
+    disable-graylog: true
+    disable-gui: true
+    disable-prometheus: true
+    disable-systemd: true
+
+nix:
+  shell-file: nix/stack-shell.nix
